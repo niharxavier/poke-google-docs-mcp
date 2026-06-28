@@ -6,6 +6,9 @@ Python + [FastMCP](https://github.com/jlowin/fastmcp), deployable to Render in a
 few minutes, and structured so you can extend it to Sheets, Drive, and other
 Google APIs.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/niharxavier/poke-google-docs-mcp)
+
 > **Auth model:** single-tenant per deployment. You (or anyone who forks this)
 > bring your *own* Google OAuth client and mint your *own* refresh token. There's
 > no shared multi-user server to run — clone it, plug in your credentials, deploy.
@@ -72,9 +75,14 @@ Save the output as `MCP_API_KEY`.
 
 ### 4. Deploy to Render
 
+Fork this repo first (so the env vars are yours), then click the button on your
+fork's README — or do it manually:
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/niharxavier/poke-google-docs-mcp)
+
 1. Push this repo to your own GitHub.
-2. In [Render](https://render.com): **New → Web Service** (or **Blueprint** — it
-   auto-detects `render.yaml`), and connect your repo.
+2. In [Render](https://render.com): **New → Blueprint** (it auto-detects
+   `render.yaml`) or **New → Web Service**, and connect your repo.
 3. Add these environment variables (Environment tab):
    - `GOOGLE_CLIENT_ID`
    - `GOOGLE_CLIENT_SECRET`
