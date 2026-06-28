@@ -18,7 +18,10 @@ def _check_api_key() -> None:
     if not expected:
         return  # auth disabled
 
-    headers = get_http_headers()  # lowercased header names
+    # NOTE: get_http_headers() strips "authorization" by default (it's on
+    # FastMCP's exclude list to avoid forwarding creds downstream), so we must
+    # opt it back in explicitly or every authed tool call sees an empty header.
+    headers = get_http_headers(include={"authorization"})  # lowercased names
     value = headers.get("authorization", "")
     token = value[7:].strip() if value.lower().startswith("bearer ") else ""
 
