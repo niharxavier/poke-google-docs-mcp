@@ -1,0 +1,22 @@
+# Render deployment config. Render auto-detects this file when you create a
+# Blueprint / Web Service from the repo. Set the secret env vars in the Render
+# dashboard (they are marked sync: false so they are NOT committed to git).
+services:
+  - type: web
+    name: poke-google-docs-mcp
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python src/server.py
+    plan: free
+    autoDeploy: false
+    envVars:
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REFRESH_TOKEN
+        sync: false
+      # Shared secret Poke must send as "Authorization: Bearer <MCP_API_KEY>".
+      # Strongly recommended: without it, anyone with the URL can edit your Docs.
+      - key: MCP_API_KEY
+        sync: false
