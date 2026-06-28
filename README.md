@@ -99,10 +99,44 @@ In Poke → **Settings → Integrations → Connect MCP** (or
 [poke.com/settings/connections](https://poke.com/settings/connections)):
 
 - **URL:** `https://<your-service>.onrender.com/mcp`
+  — ⚠️ **the `/mcp` suffix is required.** The bare domain
+  (`https://<your-service>.onrender.com`) has nothing listening on it and Poke
+  will reject it with *"Invalid MCP server URL."*
 - **API Key:** the `MCP_API_KEY` from step 3.
 
 Then ask Poke something like:
 *"Create a Google Doc called 'Weekly Plan' and add a heading and three bullet points."*
+
+---
+
+## Troubleshooting
+
+**Poke says "Invalid MCP server URL. Please check your URL and try again."**
+You almost certainly left off the `/mcp` path. Use
+`https://<your-service>.onrender.com/mcp`, not the bare domain.
+
+**Verify the server yourself** (replace the URL and key). A `GET` returns
+`405 Method Not Allowed` — that's *correct*, MCP only accepts `POST`:
+
+```bash
+# Should print: HTTP 405, allow: POST, DELETE
+curl -i https://<your-service>.onrender.com/mcp
+
+# Full handshake — should return HTTP 200 and serverInfo "Google Docs MCP":
+curl -i -X POST https://<your-service>.onrender.com/mcp \
+  -H "Authorization: Bearer <MCP_API_KEY>" \
+  -H "Content-Type: application/json" \
+  -H "Accept: application/json, text/event-stream" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-03-26","capabilities":{},"clientInfo":{"name":"curl","version":"1.0"}}}'
+```
+
+- `404` on the root (`/`) is normal — only `/mcp` is mounted.
+- `401`/auth errors → the `Authorization: Bearer` key doesn't match the
+  `MCP_API_KEY` set in Render's Environment tab.
+- First request after the server's been idle takes ~30s (free-tier cold start);
+  retry if Poke times out.
+- If the handshake fails entirely, check the Render dashboard: the latest deploy
+  should be **Live** and all 4 env vars must be set.
 
 ---
 
