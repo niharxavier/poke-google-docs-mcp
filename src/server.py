@@ -13,13 +13,14 @@ import os
 from fastmcp import FastMCP
 
 from tools.docs import register_docs_tools
+from tools.drive import register_drive_tools
+from tools.sheets import register_sheets_tools
 
-mcp = FastMCP("Google Docs MCP")
+mcp = FastMCP("Google Workspace MCP")
 
 register_docs_tools(mcp)
-# To extend, e.g.:
-#   from tools.sheets import register_sheets_tools
-#   register_sheets_tools(mcp)
+register_drive_tools(mcp)
+register_sheets_tools(mcp)
 
 
 if __name__ == "__main__":

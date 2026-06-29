@@ -50,3 +50,11 @@ def get_service(api_name: str, version: str):
 
 def docs_service():
     return get_service("docs", "v1")
+
+
+def drive_service():
+    return get_service("drive", "v3")
+
+
+def sheets_service():
+    return get_service("sheets", "v4")

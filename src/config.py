@@ -11,7 +11,10 @@ src/server.py (see src/tools/docs.py as the template).
 
 SCOPES = [
     "https://www.googleapis.com/auth/documents",
-    # Google Sheets:  "https://www.googleapis.com/auth/spreadsheets",
-    # Google Drive (only files this app creates/opens):
-    #                 "https://www.googleapis.com/auth/drive.file",
+    # Drive: list ALL files (metadata only, read-only)...
+    "https://www.googleapis.com/auth/drive.metadata.readonly",
+    # ...but only delete files THIS app created/opened.
+    "https://www.googleapis.com/auth/drive.file",
+    # Google Sheets: read + write spreadsheets.
+    "https://www.googleapis.com/auth/spreadsheets",
 ]
